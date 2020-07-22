@@ -21,21 +21,21 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/.github/scripts/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install Dependencies
         run: |
           python --version
-          pip install -r requirements.txt
+          pip install -r .github/scripts/requirements.txt
 
       - name: Decrypt Gdrive Service Account Secret
         env:
           LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
         run: |
           cd .github/scripts
-          decrypt_secret.sh
+          ./decrypt_secret.sh
 
 
       - name: Update aws-uswest2 team
